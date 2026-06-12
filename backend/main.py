@@ -27,6 +27,8 @@ from api.server import APIServer
 
 def main():
     mimetypes.add_type("application/javascript", ".js")
+    api_server = None
+    window = None
 
     # 初始化日志
     init_logging(log_name="image-matting")
@@ -37,7 +39,7 @@ def main():
         url = "web/index.html"
     VERSION = settings.VERSION
     api_server_port = config.get("api_server.port", 11111)
-    is_enable_api_server = config.get("api_server.is_enable", False)    
+    is_enable_api_server = config.get("api_server.is_enable", False)
     if is_enable_api_server:
         api_server = APIServer(host="127.0.0.1", port=api_server_port)
         api_server.start()
@@ -48,7 +50,8 @@ def main():
         result = window.create_file_dialog(
             webview.OPEN_DIALOG, allow_multiple=bool(multiple), file_types=file_types
         )
-        print(result)
+        if multiple:
+            return res200({"file_paths": list(result) if result else []})
         return res200({"file_path": result[0] if result else ""})
 
     def open_folder_dialog(self, initial_directory=""):
@@ -176,6 +179,10 @@ def main():
     except Exception as e:
         traceback.print_exc()
         logger.error(f"Start window error: {traceback.format_exc()}")
+        if api_server is not None:
+            api_server.stop()
+        config.close()
+        return
 
     logger.info(f"Debug: {settings.DEBUG}")
     logger.info(f"Version: {VERSION}")
@@ -210,7 +217,7 @@ def main():
 
     try:
         webview.start(bind, window, debug=settings.DEBUG, http_server=True)
-    except:
+    except Exception:
         traceback.print_exc()
         logger.error(f"Webview.start() error: {traceback.format_exc()}")
 

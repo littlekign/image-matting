@@ -4,11 +4,11 @@
 
 - 开发环境
   - python 3.11.9
-  - node v20.11.0
+  - node v22.12.0
 
 - 安装依赖
   - pdm 安装 参考 <https://pdm-project.org/zh-cn/latest/>
-  - pnpm 安装 参考 <https://pnpm.io/zh/installation>
+  - pnpm 安装 参考 <https://pnpm.io/zh/installation> version: 10.34.3
 
 - 开发模式下运行
   - 安装后端依赖
@@ -22,7 +22,7 @@
 
     ```shell
     cd frontend
-    pnpm install
+    pnpm install --frozen-lockfile
     ```
 
   - 下载模型

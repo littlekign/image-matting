@@ -73,6 +73,7 @@ class AIMattingAPI:
         :param image_path: The path of the input image.
         :return: The response object with the no-background image in base64 format.
         """
+        image_path = None
         try:
             image_path = playload.get("image_path")
             folder_path = playload.get("folder_path")

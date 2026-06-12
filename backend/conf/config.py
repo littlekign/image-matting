@@ -1,6 +1,7 @@
 # config.py
 import json
 import threading
+from copy import deepcopy
 from pathlib import Path
 from threading import Lock
 from collections.abc import Mapping
@@ -54,7 +55,7 @@ class Config(Mapping):
             with open(self.config_path, "w", encoding="utf8") as config_file:
                 json.dump(DEFAULT_CONFIG, config_file)
 
-        self.config = DEFAULT_CONFIG
+        self.config = deepcopy(DEFAULT_CONFIG)
         with open(self.config_path, "r") as config_file:
             self.config.update(json.load(config_file))
 

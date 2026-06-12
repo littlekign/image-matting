@@ -76,6 +76,7 @@ class ConvertImageAPI:
             return res500("Error in get_folder_convert_images")
 
     def convert_image_from_folder(self, playload):
+        image_path = None
         try:
             image_path = playload.get("image_path")
             folder_path = playload.get("folder_path")
