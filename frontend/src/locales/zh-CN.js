@@ -1,6 +1,6 @@
 export default {
   meta: {
-    title: '图像抠图',
+    title: '小宾AI抠图',
     description: '基于AI的图像抠图工具',
   },
   common: {
@@ -129,7 +129,7 @@ export default {
     mult_convert_image: {
       select_folder_btn: '选择文件夹',
       start_convert_btn: '开始转换',
-      finish: '结束处理', 
+      finish: '结束处理',
     }
   },
   compress: {
@@ -155,8 +155,8 @@ export default {
     mult_compress_image: {
       select_folder_btn: '选择文件夹',
       start_compress_btn: '开始压缩',
-      retry_btn:'失败重试',
-      finish: '结束处理', 
+      retry_btn: '失败重试',
+      finish: '结束处理',
     }
   },
   ai_inpainting: {

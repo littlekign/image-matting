@@ -1,6 +1,6 @@
 export default {
   meta: {
-    title: 'Image Matting',
+    title: 'XiaoBin Image Matting',
     description: 'AI-based image matting tool',
   },
   common: {
@@ -157,7 +157,7 @@ export default {
     mult_compress_image: {
       select_folder_btn: 'Select Folder',
       start_compress_btn: 'Start Compression',
-      retry_btn:'Retry Compress',
+      retry_btn: 'Retry Compress',
       finish: 'Finish Processing',
     }
   },
@@ -171,7 +171,7 @@ export default {
     editor: {
       brush_size: 'Brush Size',
       undo: 'Undo',
-      redo: 'Redo', 
+      redo: 'Redo',
       clear: 'Clear',
       process: 'Process'
     }
