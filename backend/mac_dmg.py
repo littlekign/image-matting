@@ -2,7 +2,7 @@
 # 应用名称
 app_name = "小宾AI抠图"
 
-version = "V0.2.5"
+version = "V0.2.6"
 # DMG 输出文件名
 filename = f"[mac]-{app_name}-{version}.dmg"
 
