@@ -25,21 +25,21 @@
 
         <div class="mt-4 flex justify-center items-center">
 
-            <ul class="space-y-2 max-w-3xl min-w-96 overflow-y-auto" style="max-height: 60vh;">
+            <ul class="space-y-2 max-w-3xl min-w-[360px] w-full overflow-y-auto max-h-[calc(100vh-310px)]">
                 <li v-for="(image, index) in compressImageList" :key="index"
-                    class="flex p-2 rounded-lg border border-gray-200">
+                    class="flex p-2 rounded-lg border border-neutral-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/40">
                     <!-- Thumbnail -->
-                    <div class="flex-none w-16 h-16">
-                        <img :src="image.img" alt="thumbnail" class="object-cover w-full h-full rounded-md">
+                    <div class="flex-none w-12 h-12">
+                        <img :src="image.img" alt="thumbnail" class="object-cover w-full h-full rounded-md shadow-sm">
                     </div>
 
                     <!-- Image Info -->
-                    <div class="grow ml-4 flex flex-col truncate">
-                        <p class="truncate font-semibold" :title="image.image_name">{{ image.image_name }}</p>
-                        <p class="text-xs text-gray-400 truncate" :title="image.image_path">{{ image.image_path }}</p>
-                        <div class="flex space-x-4 mt-1">
-                            <p class="text-xs text-gray-500">Original Size: {{ image.formatSize }}</p>
-                            <p v-if="image.compress_result" class="text-xs text-green-500">
+                    <div class="grow ml-3 flex flex-col justify-center truncate text-xs">
+                        <p class="truncate font-semibold text-zinc-800 dark:text-zinc-200" :title="image.image_name">{{ image.image_name }}</p>
+                        <p class="text-[10px] text-zinc-400 dark:text-zinc-500 truncate" :title="image.image_path">{{ image.image_path }}</p>
+                        <div class="flex space-x-3 mt-0.5 text-[10px]">
+                            <p class="text-zinc-400 dark:text-zinc-500">Original Size: {{ image.formatSize }}</p>
+                            <p v-if="image.compress_result" class="text-green-500 font-medium">
                                 Compressed Size: {{ image.compress_result.formatSize }}
                             </p>
                         </div>
@@ -77,6 +77,10 @@
             <button @click="stopConvertImage()" class="bg-green-500 text-white px-4 py-2 rounded-full">{{
                 t('compress.mult_compress_image.finish') }}</button>
         </div>
+        <div v-else class="mt-6 text-center">
+            <button @click="goBack()" class="bg-green-500 text-white px-4 py-2 rounded-full">{{
+                t('common.btn_back') }}</button>
+        </div>
 
         <div v-if="loading" class="flex justify-center items-center">
             <div class="loader"></div>
@@ -88,11 +92,13 @@
 
 <script setup>
 import { ref, watch, onUnmounted, computed } from "vue"
+import { useRouter } from "vue-router"
 import baseAPI from "@/api/base";
 import message from "@/utils/message";
 import { compressImageAPI } from "@/api/compress_image"
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
+const router = useRouter()
 
 const loading = ref(false)
 
@@ -151,6 +157,10 @@ watch(selectFolder, async () => {
 // 打开文件
 const openFile = async (path) => {
     await baseAPI('open_and_select_file', path)
+}
+
+const goBack = () => {
+    router.back()
 }
 
 // 开始转换

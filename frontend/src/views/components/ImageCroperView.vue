@@ -1,6 +1,6 @@
 <template>
     <div class="editor h-full flex flex-col items-center">
-        <div class="canvas relative w-full h-96" @dblclick="dblclick">
+        <div class="canvas relative w-full h-[calc(100vh-280px)] min-h-[250px] max-h-[384px]" @dblclick="dblclick">
             <img :src="imageUrl" ref="image" @load="onImageLoad" class="object-contain w-full h-full" />
         </div>
         <div v-if="cropper" class="toolbar flex mt-4 flex-wrap justify-center" @click="handleClick">
@@ -13,10 +13,10 @@
                 <span class="fa fa-trash"></span>
             </button>
 
-            <button v-if="toolbarOptions.move" class="toolbar__button" data-action="move" title="Move (M)">
+            <button v-if="toolbarOptions.move" class="toolbar__button" :class="{ 'active': dragMode === 'move' }" data-action="move" title="Move (M)">
                 <span class="fa fa-arrows"></span>
             </button>
-            <button v-if="toolbarOptions.crop" class="toolbar__button" data-action="crop" title="Crop (C)">
+            <button v-if="toolbarOptions.crop" class="toolbar__button" :class="{ 'active': dragMode === 'crop' }" data-action="crop" title="Crop (C)">
                 <span class="fa fa-crop"></span>
             </button>
             <button v-if="isCropping && toolbarOptions.cancel" class="toolbar__button" data-action="cancel"
@@ -97,6 +97,7 @@ const emit = defineEmits(['crop', 'cancel', 'confirm',]);
 const image = ref(null);
 const cropper = ref(null);
 const isCropping = ref(false);
+const dragMode = ref('move');
 const croppedData = ref(null);
 const canvasData = ref(null);
 const cropBoxData = ref(null);
@@ -128,6 +129,7 @@ function initializeCropper() {
     cropper.value = new Cropper(image.value, {
         autoCrop: false,
         dragMode: 'move',
+        toggleDragModeOnDblclick: false,
         background: props.toolbarOptions.background,
         ready: () => {
             if (croppedData.value) {
@@ -157,6 +159,7 @@ const setCropBox = () => {
         cropper.value.setAspectRatio(width / height);
         cropper.value.setCropBoxData({ width, height });
         cropper.value.crop();
+        dragMode.value = 'crop';
     }
 };
 
@@ -164,6 +167,10 @@ watch(() => props.cropSize, (newSize) => {
     console.log(newSize);
     if (newSize) {
         setCropBox();
+    } else {
+        if (cropper.value) {
+            cropper.value.setAspectRatio(null);
+        }
     }
 });
 
@@ -172,9 +179,12 @@ function handleClick({ target }) {
 
     switch (action) {
         case 'move':
+            cropper.value.setDragMode('move');
+            dragMode.value = 'move';
+            break;
         case 'crop':
-            cropper.value.setDragMode(action);
-            cropper.value.setAspectRatio(null);
+            cropper.value.setDragMode('crop');
+            dragMode.value = 'crop';
             break;
         case 'cancel':
             clear();
@@ -314,9 +324,11 @@ const keydown = (e) => {
             break;
         case 'c':
             cropper.value.setDragMode('crop');
+            dragMode.value = 'crop';
             break;
         case 'm':
             cropper.value.setDragMode('move');
+            dragMode.value = 'move';
             break;
         case 'i':
             cropper.value.zoom(0.1);
@@ -405,6 +417,10 @@ onBeforeUnmount(() => {
 }
 
 .toolbar__button:hover {
+    background-color: #0074d9;
+}
+
+.toolbar__button.active {
     background-color: #0074d9;
 }
 </style>

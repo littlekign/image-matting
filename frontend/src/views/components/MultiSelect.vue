@@ -2,23 +2,26 @@
     <div class="mb-4 relative">
       <div
         @click="toggleDropdown"
-        class="select select-sm select-bordered w-full flex items-center justify-between cursor-pointer"
+        class="select select-sm select-bordered w-full flex items-center justify-between cursor-pointer h-auto py-1 min-h-9"
       >
-        <div class="flex flex-wrap gap-1 bg-white">
-          <span v-for="item in modelValue" :key="item" class="px-2 bg-blue-100 text-blue-800 py-1 rounded text-sm ml-2">
+        <div class="flex flex-wrap gap-1 bg-transparent w-full">
+          <span v-for="item in modelValue" :key="item" class="px-2 bg-blue-100 dark:bg-blue-950/40 text-blue-800 dark:text-blue-300 py-0.5 rounded text-xs ml-1 flex items-center">
             {{ item }}
-            <button @click.stop="removeItem(item)" class="ml-1 text-blue-600 hover:text-blue-800">&times;</button>
+            <button @click.stop="removeItem(item)" class="ml-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 font-bold">&times;</button>
+          </span>
+          <span v-if="modelValue.length === 0" class="text-zinc-400 dark:text-zinc-500 text-xs ml-2">
+            Select items...
           </span>
         </div>
       </div>
-      <div v-if="isOpen" class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+      <div v-if="isOpen" class="absolute z-10 w-full mt-1 bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-md shadow-lg">
         <div
           v-for="option in options"
           :key="option"
           @click="toggleOption(option)"
-          class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+          class="px-4 py-2 hover:bg-neutral-100 dark:hover:bg-zinc-800 cursor-pointer text-sm text-zinc-800 dark:text-zinc-200 flex items-center"
         >
-          <input type="checkbox" :checked="modelValue.includes(option)" class="mr-2">
+          <input type="checkbox" :checked="modelValue.includes(option)" class="checkbox checkbox-xs checkbox-primary mr-2">
           {{ option }}
         </div>
       </div>

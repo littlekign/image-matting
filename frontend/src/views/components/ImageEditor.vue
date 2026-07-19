@@ -1,6 +1,6 @@
 <template>
-  <div class="image-editor" @mousemove="updateCursor" @wheel="handleZoom">
-    <div class="canvas-container m-14" 
+  <div class="image-editor flex flex-col items-center" @mousemove="updateCursor" @wheel="handleZoom">
+    <div class="canvas-container my-4 mx-auto" 
          :class="[{ 'move': mode === 'move', 'erase': mode === 'erase', 'restore': mode === 'restore' }, backgroundClass]"
          :style="{ backgroundColor: backgroundColor }"
          @mouseleave="handleMouseLeave"
@@ -154,8 +154,16 @@ function handleMouseLeave() {
 }
 
 function adjustCanvasSize(img) {
-  const canvasWidth = 700;
-  const canvasHeight = 500;
+  // Let the canvas adjust to the viewport size so it doesn't overflow small screens
+  const vh = window.innerHeight;
+  const vw = window.innerWidth;
+  
+  // We want the modal to leave room for paddings, title, buttons, and editor toolbar
+  const maxAllowedHeight = Math.max(200, vh - 320); 
+  const maxAllowedWidth = Math.max(300, vw - 120);
+
+  const canvasHeight = Math.min(500, maxAllowedHeight);
+  const canvasWidth = Math.min(700, Math.min(maxAllowedWidth, Math.round(canvasHeight * 1.4)));
 
   const { width, height } = img;
 

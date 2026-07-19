@@ -24,14 +24,22 @@
 
         <div class="mt-4 flex justify-center items-center">
 
-            <ul class="space-y-2  max-w-3xl min-w-96 overflow-y-auto" style="max-height: 60vh;">
-                <li v-for="(image, index) in convertImageList" :key="index" class="flex  p-2 rounded-lg">
-                    <div class="grow ml-4 flex flex-col truncate">
-                        <p class="truncate" :title="image.image_name">{{ image.image_name }}</p>
-                        <p class="text-xs text-gray-400 truncate" :title="image.image_path">{{
-                            image.image_path }}</p>
+            <ul class="space-y-2 max-w-3xl min-w-[360px] w-full overflow-y-auto max-h-[calc(100vh-310px)]">
+                <li v-for="(image, index) in convertImageList" :key="index" class="flex p-2 rounded-lg border border-neutral-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/40 hover:bg-neutral-100/50 dark:hover:bg-zinc-800/10">
+                    <!-- Thumbnail -->
+                    <div class="flex-none w-12 h-12 flex items-center justify-center bg-neutral-100 dark:bg-zinc-800 rounded-md overflow-hidden">
+                        <img v-if="image.base64_image" :src="image.base64_image" alt="thumbnail" class="object-cover w-full h-full">
+                        <i v-else class="fa-regular fa-image text-zinc-300 dark:text-zinc-600 text-sm"></i>
                     </div>
-                    <span class="flex-none  btn btn-circle btn-ghost ml-4">
+
+                    <!-- Image Info -->
+                    <div class="grow ml-3 flex flex-col justify-center truncate text-xs">
+                        <p class="truncate font-semibold text-zinc-800 dark:text-zinc-200" :title="image.image_name">{{ image.image_name }}</p>
+                        <p class="text-[10px] text-zinc-400 dark:text-zinc-500 truncate mt-0.5" :title="image.image_path">{{ image.image_path }}</p>
+                    </div>
+
+                    <!-- Status Indicator -->
+                    <span class="flex-none btn btn-circle btn-ghost ml-4 flex items-center justify-center self-center">
                         <svg @click="openFile(image.image_path)" v-if="image.status === 'waiting'"
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             class="w-6 h-6 animate-spin">
@@ -61,6 +69,10 @@
             <button @click="stopConvertImage()" class="bg-green-500 text-white px-4 py-2 rounded-full">{{
                 t('convert.mult_convert_image.finish') }}</button>
         </div>
+        <div v-else class="mt-6 text-center">
+            <button @click="goBack()" class="bg-green-500 text-white px-4 py-2 rounded-full">{{
+                t('common.btn_back') }}</button>
+        </div>
 
         <div v-if="loading" class="flex justify-center items-center">
             <div class="loader"></div>
@@ -72,11 +84,13 @@
 
 <script setup>
 import { ref, watch, onUnmounted, computed } from "vue"
+import { useRouter } from "vue-router"
 import baseAPI from "@/api/base";
 import message from "@/utils/message";
 import { convertImageAPI } from "@/api/convert_image"
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
+const router = useRouter()
 
 const loading = ref(false)
 
@@ -84,6 +98,7 @@ const imageTypes = ["PNG", "JPEG", "GIF", "BMP", "WEBP", "ICO", "ICNS", "TIFF", 
 const selectFileType = ref("PNG")
 const selectFolder = ref(null)
 const working = ref(false)
+const updateImageList = ref(true)
 
 const convertImageList = ref([])
 
@@ -120,23 +135,48 @@ const getConvertFileList = async () => {
     const res = await convertImageAPI('get_folder_convert_images', selectFolder.value)
     console.log('getConvertFileList', res)
     if (res.code === 200) {
-        convertImageList.value = res.data.convert_images
+        convertImageList.value = res.data.convert_images.map(item => ({
+            ...item,
+            base64_image: ''
+        }))
     } else {
         message.error(res.error_msg)
     }
     loading.value = false
 }
 
+// 异步获取图像的base64编码
+const updateImageListToBase64 = async () => {
+    for (let i = 0; i < convertImageList.value.length; i++) {
+        if (updateImageList.value === true) {
+            const image = convertImageList.value[i]
+            if (image.base64_image === '') {
+                const result = await baseAPI('get_local_file_base64', image.image_path);
+                if (result.code === 200) {
+                    image.base64_image = result.data.base64_image
+                }
+            }
+        } else {
+            break
+        }
+    }
+}
+
 //  监听文件夹选择
 watch(selectFolder, async () => {
     if (selectFolder.value) {
         await getConvertFileList()
+        await updateImageListToBase64()
     }
 })
 
 // 打开文件
 const openFile = async (path) => {
     await baseAPI('open_and_select_file', path)
+}
+
+const goBack = () => {
+    router.back()
 }
 
 // 开始转换
@@ -179,6 +219,7 @@ const handleConvertImage = async () => {
 
 onUnmounted(() => {
     working.value = false
+    updateImageList.value = false
     convertImageList.value = []
     selectFolder.value = null
 })

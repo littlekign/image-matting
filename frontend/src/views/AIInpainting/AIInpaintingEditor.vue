@@ -138,8 +138,13 @@ const initCanvas = (img) => {
   originalHeight.value = img.height;
   
   // 计算画布大小
-  const maxWidth = 700;
-  const maxHeight = 500;
+  const vh = window.innerHeight;
+  const vw = window.innerWidth;
+  const maxAllowedHeight = Math.max(250, vh - 220);
+  const maxAllowedWidth = Math.max(300, vw - 120);
+
+  const maxHeight = Math.min(500, maxAllowedHeight);
+  const maxWidth = Math.min(700, maxAllowedWidth);
   const scale = Math.min(maxWidth / img.width, maxHeight / img.height);
   const width = img.width * scale;
   const height = img.height * scale;

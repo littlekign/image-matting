@@ -1,10 +1,10 @@
 <template>
   <aside 
     class="sidebar z-20 flex flex-col h-screen select-none transition-all duration-300 ease-in-out border-r border-neutral-200/50 dark:border-zinc-800/40 bg-neutral-100/60 dark:bg-zinc-900/60 backdrop-blur-xl flex-shrink-0 sticky top-0"
-    :class="isSidebarOpen ? 'w-60' : 'w-20'"
+    :class="isSidebarOpen ? 'w-[180px]' : 'w-[64px]'"
   >
     <!-- App Logo & Title Section -->
-    <div class="flex items-center p-4 overflow-hidden border-b border-neutral-200/30 dark:border-zinc-800/20">
+    <div class="flex items-center p-3 overflow-hidden border-b border-neutral-200/30 dark:border-zinc-800/20">
       <div 
         class="flex-shrink-0 flex items-center justify-center transition-all duration-300 ease-in-out"
         :class="isSidebarOpen ? 'w-9 h-9' : 'w-9 h-9 mx-auto'"
@@ -17,7 +17,7 @@
       </div>
       <div 
         class="ml-3 flex flex-col transition-all duration-300 ease-in-out"
-        :class="isSidebarOpen ? 'opacity-100 max-w-[150px]' : 'opacity-0 max-w-0 overflow-hidden'"
+        :class="isSidebarOpen ? 'opacity-100 max-w-[105px]' : 'opacity-0 max-w-0 overflow-hidden'"
       >
         <span class="text-sm font-semibold tracking-tight text-zinc-800 dark:text-zinc-100 whitespace-nowrap">
           {{ t('meta.title') }}
@@ -72,7 +72,7 @@
           
           <span 
             class="text-[13px] tracking-wide transition-all duration-300 whitespace-nowrap overflow-hidden"
-            :class="isSidebarOpen ? 'opacity-100 max-w-[150px]' : 'opacity-0 max-w-0 pointer-events-none'"
+            :class="isSidebarOpen ? 'opacity-100 max-w-[105px]' : 'opacity-0 max-w-0 pointer-events-none'"
           >
             {{ item.label }}
           </span>

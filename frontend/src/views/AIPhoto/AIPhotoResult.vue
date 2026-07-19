@@ -1,6 +1,6 @@
 <template>
     <div class="relative overflow-x-auto w-full h-full flex flex-col items-center justify-center">
-        <div class="flex items-center justify-center" style="height: 60vh; width: auto;">
+        <div class="flex items-center justify-center h-[calc(100vh-260px)] min-h-[200px] max-h-[450px] w-auto">
             <img :src="imageSrc" :class="{ 'img-transparent-bg': selectedColor === 'transparent' }"
                 class="relative z-10 border border-indigo-600 object-contain" :style="containerStyle"
                 style="max-width: 100%;max-height: 100%; width: auto; height: auto;" />

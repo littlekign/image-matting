@@ -1,21 +1,23 @@
 <template>
     <div class="container mx-auto">
         <ImageEditor :imageUrl="imageUrl" :toolbarOptions="coppedToolbarOptions" />
-        <div class="flex justify-center space-x-10 mt-4">
-            <!--tailwindcss  选择文件按钮  转换类型下拉框  转换按钮 -->
-            <button class="bg-green-500 btn text-white px-4 py-2 rounded-full btn-md" @click="handleSelectFile">
-                {{ t("convert.convert_image.select_btn") }}
+        <div class="flex justify-center space-x-4 mt-6 flex-wrap gap-y-2 items-center">
+            <button @click="goBack()" class="bg-green-500 text-white px-6 py-2 rounded-full text-sm hover:bg-green-600 transition-colors shadow-sm">
+                {{ t('common.btn_back') }}
             </button>
 
-            <select v-model="selectFileType" class="select select-bordered w-32  px-4 ">
-                <option v-for="item in imageTypes" :value="item">{{ item }}</option>
+            <button class="bg-green-500 text-white px-6 py-2 rounded-full text-sm hover:bg-green-600 transition-colors shadow-sm" @click="handleSelectFile">
+                {{ selectFile ? t('common.btn_reselect') : t("convert.convert_image.select_btn") }}
+            </button>
+
+            <select v-model="selectFileType" class="select select-bordered select-sm w-32 px-4 h-9 min-h-0 rounded-full text-sm">
+                <option v-for="item in imageTypes" :value="item" :key="item">{{ item }}</option>
             </select>
 
             <button :disabled="!selectFile" @click="handleConvertImage"
-                class="bg-green-500 btn text-white px-4 py-2 rounded-full btn-md">
+                class="bg-blue-500 btn border-none text-white px-6 py-2 rounded-full h-9 min-h-0 text-sm hover:bg-blue-600 shadow-sm flex items-center justify-center">
                 {{ t("convert.convert_image.convert_btn") }}
             </button>
-
         </div>
     </div>
 </template>
@@ -68,6 +70,9 @@ const getFileLocalBase64 = async (filePath) => {
     }
 };
 
+const goBack = () => {
+    router.back();
+};
 
 const handleSelectFile = async () => {
     const res = await baseAPI("open_file_dialog", false)
@@ -89,7 +94,6 @@ const handleConvertImage = async () => {
     if (res.code === 200) {
         message.info("success")
     } else {
-        loading.value = false
         message.error(res.error_msg)
     }
 }
@@ -97,6 +101,12 @@ const handleConvertImage = async () => {
 
 </script>
 <style scoped>
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+}
 .btn.btn-disabled, .btn[disabled], .btn:disabled{
     background-color: #c6c6c6
 }

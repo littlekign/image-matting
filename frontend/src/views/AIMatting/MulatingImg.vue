@@ -6,13 +6,13 @@
                 <span class="badge badge-info">{{ t('common.processing') }} {{ processed_count }} / {{
                     image_list.length }}</span>
             </div>
-            <!-- 图片列表,最高显示5个，超出显示滚动条 -->
-            <ul class="space-y-2 max-h-96 w-full overflow-y-auto ">
-                <li v-for="(image, index) in image_list" :key="index" class="flex  p-2 rounded-lg">
-                    <img :src="image.base64_image" alt="image" class="w-16 h-16 rounded flex-none" />
-                    <div class="grow ml-4 flex flex-col truncate">
-                        <p class="truncate" :title="image.image_name">{{ image.image_name }}</p>
-                        <p class="text-xs text-gray-400 truncate" :title="image.image_path">{{
+            <!-- 图片列表，超出显示滚动条 -->
+            <ul class="space-y-2 max-h-[calc(100vh-310px)] w-full overflow-y-auto">
+                <li v-for="(image, index) in image_list" :key="index" class="flex p-2 rounded-lg border border-neutral-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/40 hover:bg-neutral-100/50 dark:hover:bg-zinc-800/10">
+                    <img :src="image.base64_image" alt="image" class="w-12 h-12 rounded-md flex-none object-cover shadow-sm" />
+                    <div class="grow ml-3 flex flex-col justify-center truncate text-xs">
+                        <p class="truncate font-semibold text-zinc-800 dark:text-zinc-200" :title="image.image_name">{{ image.image_name }}</p>
+                        <p class="text-[10px] text-zinc-400 dark:text-zinc-500 truncate mt-0.5" :title="image.image_path">{{
                             image.image_path }}</p>
                     </div>
                     <span class="flex-none  btn btn-circle btn-ghost ml-4">

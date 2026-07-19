@@ -1,22 +1,66 @@
 <template>
-  <div class="p-6 max-full flex flex-col items-center">
-    <h2 class="text-2xl font-bold">{{ t('about.title') }}</h2>
-    <div class="w-full max-w-lg p-6 rounded-lg shadow-md select-text">
-      <h3 class="text-xl font-semibold">{{ t('about.system_info') }}</h3>
-      <p class=" mb-2">{{ t('about.author') }}: {{ systemInfo.author }}</p>
-      <p class=" mb-2">{{ t('about.email') }}: {{ systemInfo.email }}</p>
-      <p class="mb-2">Github:<span class="cursor-pointer text-blue-500" @click="openLink(systemInfo.github)">{{
-        systemInfo.github }}</span></p>
-      <p class="mb-2">Website: <span class="cursor-pointer text-blue-500" @click="openLink(systemInfo.website)">{{
-        systemInfo.website }}</span></p>
-      <p class=" mb-2">{{ t('about.version') }}: {{ systemInfo.version }}</p>
-      <p class=" mb-2">{{ t('about.sponsor') }}:</p>
-      <div>
-        <img src="/wx_sponsor.png" alt="sponsor QR Code" class="h-36 object-cover rounded-md" />
+  <div class="w-full max-w-lg px-6 py-8 flex flex-col items-center mx-auto select-none">
+    <!-- App Branding header -->
+    <div class="flex flex-col items-center text-center mb-6 flex-shrink-0">
+      <h2 class="text-xl font-bold text-zinc-800 dark:text-zinc-100 leading-tight">
+        {{ t('about.title') }}
+      </h2>
+      <span class="px-2 py-0.5 bg-neutral-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 rounded-full text-xs font-medium border border-neutral-200/40 dark:border-zinc-700/30 mt-2">
+        Version {{ systemInfo.version }}
+      </span>
+    </div>
+
+    <!-- Info List -->
+    <div class="w-full space-y-4 select-text mb-8">
+      <div class="border-t border-neutral-200/50 dark:border-zinc-800/40 pt-4 space-y-3 text-sm">
+        <div class="flex justify-between items-center py-1">
+          <span class="text-zinc-500 dark:text-zinc-400 font-medium text-xs">{{ t('about.author') }}</span>
+          <span class="font-medium text-zinc-900 dark:text-zinc-100">{{ systemInfo.author }}</span>
+        </div>
+
+        <div class="flex justify-between items-center py-1">
+          <span class="text-zinc-500 dark:text-zinc-400 font-medium text-xs">{{ t('about.email') }}</span>
+          <span class="font-medium text-zinc-900 dark:text-zinc-100">{{ systemInfo.email }}</span>
+        </div>
+
+        <div class="flex flex-col py-1 border-t border-neutral-100 dark:border-zinc-800/20 pt-2.5">
+          <span class="text-zinc-500 dark:text-zinc-400 font-medium text-xs mb-1.5">{{ t('about.github') }}</span>
+          <span class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline cursor-pointer text-xs font-semibold break-all" @click="openLink(systemInfo.github)">
+            {{ systemInfo.github }}
+          </span>
+        </div>
+
+        <div class="flex flex-col py-1 border-t border-neutral-100 dark:border-zinc-800/20 pt-2.5">
+          <span class="text-zinc-500 dark:text-zinc-400 font-medium text-xs mb-1.5">{{ t('about.website') }}</span>
+          <span class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline cursor-pointer text-xs font-semibold break-all" @click="openLink(systemInfo.website)">
+            {{ systemInfo.website }}
+          </span>
+        </div>
       </div>
-      <p class=" mb-2">{{ t('about.wx_info') }}:</p>
-      <div class="flex justify-center">
-        <img src="/wx_qr.png" alt="WeChat QR Code" class="h-32 w-full rounded-md" />
+    </div>
+
+    <!-- QR Codes Section -->
+    <div class="w-full border-t border-neutral-200/50 dark:border-zinc-800/40 pt-6">
+      <div class="grid grid-cols-2 gap-6">
+        <!-- Sponsor -->
+        <div class="flex flex-col items-center text-center">
+          <span class="text-[11px] font-semibold text-zinc-400 dark:text-zinc-500 mb-2.5">
+            {{ t('about.sponsor') }}
+          </span>
+          <div class="w-52 h-52 bg-neutral-50 dark:bg-zinc-950 border border-neutral-200/50 dark:border-zinc-800/60 rounded-xl p-1.5 flex items-center justify-center shadow-sm">
+            <img src="/wx_sponsor.png" alt="sponsor QR Code" class="max-w-full max-h-full object-contain rounded-md" />
+          </div>
+        </div>
+
+        <!-- WeChat Official Account -->
+        <div class="flex flex-col items-center text-center">
+          <span class="text-[11px] font-semibold text-zinc-400 dark:text-zinc-500 mb-2.5">
+            {{ t('about.wx_info') }}
+          </span>
+          <div class="w-52 h-52 bg-neutral-50 dark:bg-zinc-950 border border-neutral-200/50 dark:border-zinc-800/60 rounded-xl p-1.5 flex items-center justify-center shadow-sm">
+            <img src="/wx_qr.webp" alt="WeChat Official Account QR Code" class="max-w-full max-h-full object-contain rounded-md" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -57,3 +101,6 @@ onMounted(async () => {
 })
 
 </script>
+
+<style scoped>
+</style>

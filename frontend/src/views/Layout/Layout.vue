@@ -1,19 +1,17 @@
 <template>
-    <div class="flex flex-col min-h-screen">
+    <div class="flex h-screen w-screen overflow-hidden bg-neutral-50 dark:bg-zinc-950">
+        <!-- Sidebar -->
+        <Nav />
 
-        <!-- Main Content -->
-        <div class="flex flex-1">
-            <Nav />
-
-            <!-- Main Content -->
-            <div class="flex-1 flex flex-col p-2">
-                <!-- 主题切换按钮 -->
-                <Header />
-                <!-- 页面内容 -->
-                <main class="flex-1">
-                    <router-view></router-view>
-                </main>
-            </div>
+        <!-- Main Content Wrapper -->
+        <div class="flex-grow flex-1 flex flex-col p-2 min-w-0 overflow-hidden">
+            <!-- Header (Theme Switcher, etc.) -->
+            <Header class="flex-shrink-0" />
+            
+            <!-- Page Content Area -->
+            <main class="flex-grow flex-1 overflow-y-auto overflow-x-hidden min-h-0">
+                <router-view></router-view>
+            </main>
         </div>
     </div>
 </template>

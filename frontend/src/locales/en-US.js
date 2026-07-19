@@ -60,7 +60,9 @@ export default {
     version: 'Version',
     email: 'Email',
     sponsor: 'Sponsor',
-    wx_info: 'WeChat Official Account'
+    wx_info: 'WeChat Official Account',
+    github: 'GitHub Address',
+    website: 'Official Website'
   },
   ai_matting: {
     matting_home: {

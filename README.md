@@ -165,13 +165,6 @@
 ![运行截图](./imgs/8.png)
 ![运行截图](./imgs/9.png)
 ![运行截图](./imgs/10.png)
-![运行截图](./imgs/11.png)
-![运行截图](./imgs/12.png)
-![运行截图](./imgs/13.png)
-![运行截图](./imgs/14.png)
-![运行截图](./imgs/15.png)
-![运行截图](./imgs/16.png)
-![运行截图](./imgs/7.gif)
 
 ## Star History
 

@@ -59,6 +59,8 @@ export default {
     email: '邮箱',
     sponsor: '赞助',
     wx_info: '微信公众号',
+    github: 'Github地址',
+    website: '官方网站'
   },
   ai_matting: {
     matting_home: {

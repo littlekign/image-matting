@@ -1,46 +1,54 @@
 <template>
-    <div class="container mx-auto p-8">
-        <div class="grid grid-cols-3 gap-4">
+    <div class="container mx-auto p-4 md:p-6">
+        <div class="grid grid-cols-3 gap-4 items-stretch">
             <!-- 左侧原始图片信息 -->
-            <div class="border p-4 rounded shadow-md  min-h-96">
-                <h2 class="text-xl font-bold mb-4">{{ t('compress.compress_single.original_title') }}</h2>
-                <div v-if="originalImage">
-                    <img :src="originalInfo.img" alt="" class="w-32 h-32 object-cover mb-4 rounded">
-                    <ul class="break-words">
-                        <li><strong>{{ t('compress.compress_single.size') }}:</strong> {{ originalInfo.size }}</li>
-                        <li><strong>{{ t('compress.compress_single.format') }}:</strong> {{ originalInfo.format }}</li>
-                        <li><strong>{{ t('compress.compress_single.color_mode') }}:</strong> {{ originalInfo.colorMode }}</li>
-                        <li><strong>{{  t('compress.compress_single.file_size') }}:</strong> {{ originalInfo.formatSize }}</li>
-                        <li class="cursor-pointer" @click="openFile(originalInfo.path)"><strong>{{ t('compress.compress_single.path') }}:</strong> {{ originalInfo.path }}</li>
-                    </ul>
+            <div class="border border-neutral-200 dark:border-zinc-800 p-4 rounded-lg shadow-sm bg-white dark:bg-zinc-900/50 flex flex-col justify-between min-h-[300px]">
+                <div>
+                    <h2 class="text-lg font-bold mb-3">{{ t('compress.compress_single.original_title') }}</h2>
+                    <div v-if="originalImage" class="flex flex-col items-center">
+                        <img :src="originalInfo.img" alt="" class="w-24 h-24 object-cover mb-3 rounded shadow-sm">
+                        <ul class="break-all w-full text-xs md:text-sm space-y-1 text-zinc-600 dark:text-zinc-400">
+                            <li><strong>{{ t('compress.compress_single.size') }}:</strong> {{ originalInfo.size }}</li>
+                            <li><strong>{{ t('compress.compress_single.format') }}:</strong> {{ originalInfo.format }}</li>
+                            <li><strong>{{ t('compress.compress_single.color_mode') }}:</strong> {{ originalInfo.colorMode }}</li>
+                            <li><strong>{{  t('compress.compress_single.file_size') }}:</strong> {{ originalInfo.formatSize }}</li>
+                            <li class="cursor-pointer text-blue-500 hover:underline" @click="openFile(originalInfo.path)"><strong>{{ t('compress.compress_single.path') }}:</strong> {{ originalInfo.path }}</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
             <!-- 中间的按钮区域 -->
             <div class="flex flex-col justify-center items-center space-y-4">
                 <button @click="handleSelectFile"
-                    class="bg-blue-500 btn text-white px-4 py-2 rounded-full btn-md hover:bg-blue-700">
+                    class="bg-blue-500 btn border-none text-white px-6 py-2 rounded-full btn-md hover:bg-blue-600 shadow-md">
                     {{ t('compress.compress_single.select_btn') }}
                 </button>
                 <button @click="handleCompressImage" :disabled="!originalImage"
-                    class="bg-green-500 btn text-white px-4 py-2 rounded-full btn-md">
+                    class="bg-green-500 btn border-none text-white px-6 py-2 rounded-full btn-md hover:bg-green-600 shadow-md">
                     {{ t('compress.compress_single.compress_btn') }}
+                </button>
+                <button @click="goBack()"
+                    class="bg-gray-300 dark:bg-zinc-700 btn border-none text-white px-6 py-2 rounded-full btn-md hover:bg-gray-400 dark:hover:bg-zinc-600 shadow-md">
+                    {{ t('common.btn_back') }}
                 </button>
             </div>
 
             <!-- 右侧压缩后的图片信息 -->
-            <div class="border p-4 rounded shadow-md min-h-96">
-                <h2 class="text-xl font-bold mb-4">{{ t('compress.compress_single.compressed_title') }}</h2>
-                <div v-if="compressedImage">
-                    <img :src="compressedInfo.img" alt="" class="w-32 h-32 object-cover mb-4 rounded">
-                    <ul>
-                        <li><strong>{{ t('compress.compress_single.size') }}:</strong> {{ compressedInfo.size }}</li>
-                        <li><strong>{{ t('compress.compress_single.format') }}:</strong> {{ compressedInfo.format }}</li>
-                        <li><strong>{{ t('compress.compress_single.color_mode') }}:</strong> {{ compressedInfo.colorMode }}</li>
-                        <li><strong>{{  t('compress.compress_single.file_size') }}:</strong> {{ compressedInfo.formatSize }}</li>
-                        <li><strong>{{ t('compress.compress_single.compress_rate') }}:</strong> {{ compressRate }}</li>
-                        <li class="cursor-pointer" @click="openFile(compressedInfo.path)"><strong>{{ t('compress.compress_single.path') }}:</strong> {{ compressedInfo.path }}</li>
-                    </ul>
+            <div class="border border-neutral-200 dark:border-zinc-800 p-4 rounded-lg shadow-sm bg-white dark:bg-zinc-900/50 flex flex-col justify-between min-h-[300px]">
+                <div>
+                    <h2 class="text-lg font-bold mb-3">{{ t('compress.compress_single.compressed_title') }}</h2>
+                    <div v-if="compressedImage" class="flex flex-col items-center">
+                        <img :src="compressedInfo.img" alt="" class="w-24 h-24 object-cover mb-3 rounded shadow-sm">
+                        <ul class="break-all w-full text-xs md:text-sm space-y-1 text-zinc-600 dark:text-zinc-400">
+                            <li><strong>{{ t('compress.compress_single.size') }}:</strong> {{ compressedInfo.size }}</li>
+                            <li><strong>{{ t('compress.compress_single.format') }}:</strong> {{ compressedInfo.format }}</li>
+                            <li><strong>{{ t('compress.compress_single.color_mode') }}:</strong> {{ compressedInfo.colorMode }}</li>
+                            <li><strong>{{  t('compress.compress_single.file_size') }}:</strong> {{ compressedInfo.formatSize }}</li>
+                            <li><strong>{{ t('compress.compress_single.compress_rate') }}:</strong> {{ compressRate }}</li>
+                            <li class="cursor-pointer text-blue-500 hover:underline" @click="openFile(compressedInfo.path)"><strong>{{ t('compress.compress_single.path') }}:</strong> {{ compressedInfo.path }}</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -52,12 +60,14 @@
 
 <script setup>
 import { ref, watch, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import baseAPI from '@/api/base'
 import { compressImageAPI } from '@/api/compress_image'
 import message from "@/utils/message";
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
+const router = useRouter();
 
 const loading = ref(false)
 
@@ -155,6 +165,11 @@ const getImageInfo = async (img_path) => {
 const openFile = async (path) => {
     await baseAPI('open_and_select_file', path)
 }
+
+const goBack = () => {
+    router.back()
+}
+
 
 
 </script>

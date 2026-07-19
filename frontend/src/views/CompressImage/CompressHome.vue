@@ -1,8 +1,8 @@
 <template>
-    <div class="h-full flex flex-col items-center justify-center p-4">
+    <div class="min-h-full flex flex-col items-center justify-center p-4">
         <div class="text-center">
-            <h1 class="text-3xl font-bold mb-4">{{ t('compress.compress_home.title') }}</h1>
-            <p class="mb-8">{{ t('compress.compress_home.desc') }}</p>
+            <h1 class="text-2xl md:text-3xl font-bold mb-4">{{ t('compress.compress_home.title') }}</h1>
+            <p class="mb-6 text-sm md:text-base">{{ t('compress.compress_home.desc') }}</p>
             <button class="bg-green-500 btn text-white px-4 py-2 rounded-full btn-md" @click="goToConvertPage">
                 <i class="fa-solid fa-image mr-2"></i>
                 {{ t('compress.compress_home.simple_compress_btn') }}
@@ -14,12 +14,12 @@
             </button>
 
 
-            <p class="text-gray-500 mb-4 mt-8">
+            <p class="text-gray-500 mb-4 mt-6 text-xs md:text-sm">
                 {{ t('compress.compress_home.tips') }}
             </p>
         </div>
-        <div class="mt-8">
-            <img src="/compress.png" alt="compress" class="rounded shadow-lg h-80 object-cover mx-2">
+        <div class="mt-6 md:mt-8">
+            <img src="/compress.png" alt="compress" class="rounded shadow-lg h-40 md:h-56 max-h-[22vh] object-cover mx-2">
         </div>
     </div>
 </template>

@@ -213,8 +213,8 @@ onMounted(async () => {
 <style scoped>
 .img-container {
   max-width: 100%;
-  max-height: 70vh;
-  /* 限制最大高度为视口高度的70% */
+  max-height: calc(100vh - 240px);
+  /* 限制最大高度，留出按钮和顶部导航的空间 */
   display: flex;
   justify-content: center;
   align-items: center;
